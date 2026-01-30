@@ -16,8 +16,13 @@ class ImageDataset(Dataset):
         return len(self.images)
     
     def __getitem__(self,index):
+        img_name = self.images[index]
         img_path=os.path.join(self.image_dir, self.images[index])
-        mask_path=os.path.join(self.mask_dir, self.images[index].replace(".jpg", ".png"))
+        #新增：适应tif，jpg的格式
+        basename = os.path.splitext(img_name)[0]
+        mask_filename = basename + ".png"
+        mask_path = os.path.join(self.mask_dir, mask_filename)
+        #mask_path=os.path.join(self.mask_dir, self.images[index].replace(".jpg", ".png"))
         
         image=np.array(Image.open(img_path).convert("RGB"))
         mask=np.array(Image.open(mask_path).convert("L"), dtype=np.float32)

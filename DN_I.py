@@ -107,7 +107,7 @@ class ConvBlock(nn.Module):
         out=self.conv1(x)
         out=self.BN1(out)
         
-        out=x+0.5*out+0.5*self.convDiff(x)+0.5*Ff
+        out=x+0.2*out+0.05*self.convDiff(x)+0.2*Ff
 #         out=(self.tanh(out)+1.)/2.
         out=self.sig(out)
         out=CubicIter(out)

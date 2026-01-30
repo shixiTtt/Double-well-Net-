@@ -6,8 +6,8 @@ import time
 import torch.nn as nn
 import numpy as np
 import torch.optim as optim
-from DN-I import DNI # DN-I model
-from DN-II import DNII # DN-II model
+from DN_I import DNI # DN-I model
+#from DN_II import DNII # DN-II model
 
 from utils import (
     load_checkpoint,
@@ -21,17 +21,17 @@ from utils import (
 learning_rate=1e-4
 device="cuda" if torch.cuda.is_available() else "cpu"
 batch_size=8
-num_epochs=400
-num_workers=4
-image_height=192 
+num_epochs=600
+num_workers=0
+image_height=256 
 image_width=256 
 trainL=-1 # training data size, use -1 for all data
 pin_memory=False
 load_model=False
-train_dir="../data/train"
-train_maskdir="../data/train_mask"
-val_dir="../data/test400"
-val_maskdir="../data/test400_mask"
+train_dir = r"C:\Users\35356\Documents\GitHub\Double-well-Net\AV_groundTruth\training\images"
+train_maskdir = r"C:\Users\35356\Documents\GitHub\Double-well-Net\AV_groundTruth\training\vessel"
+val_dir = r"C:\Users\35356\Documents\GitHub\Double-well-Net\AV_groundTruth\test\images"
+val_maskdir = r"C:\Users\35356\Documents\GitHub\Double-well-Net\AV_groundTruth\test\vessel"
 
 def train_fn(loader,model,optimizer,loss_fn):
 #     loop=tqdm(loader)
@@ -60,6 +60,8 @@ def train_fn(loader,model,optimizer,loss_fn):
     return tt, avg_loss
         
 def main():
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
     lossAll=[]
     accAll=[]
     diceAll=[]
